@@ -1,4 +1,5 @@
 //ApollyonBot is a project of leod and extended by apollyon094.
+//grublus
 const fs = require('fs-extra');
 const path = require(`path`);
 const Discord = require('discord.js');
