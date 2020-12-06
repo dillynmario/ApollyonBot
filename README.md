@@ -9,6 +9,10 @@ npm install
 ```
 That installs all the libraries needed. This could take up to 3 minutes.
 You need to edit the configuration in the ./config folder to get the bot running on discord. Make sure to [set up the bot](https://discord.com/developers/applications) first
+Then launch it:
+```bash
+node bot_core
+```
 ## Contributing
 I am not seeking contributions right now. Fork it all you want and add stuff.
 ## License
