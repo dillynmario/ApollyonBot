@@ -21,7 +21,6 @@
 	"command_dir": "./commands/",
 	"global_dir": "./global_data/",
 	"guilds_dir": "./guild_data/",
-	"parser_dir": "./parsers/",
 	"memory_file": "memory.json",
 	"markov_file": "markov.dat",
 	"base_markov_data": "./config/base_markov.dat",
