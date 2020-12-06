@@ -18,3 +18,5 @@ node bot_core
 I am not seeking contributions right now. Fork it all you want and add stuff.
 ## License
 [GNU GPLv3](https://choosealicense.com/licenses/gpl-3.0/)
+
+[Invite it](https://discord.com/oauth2/authorize?client_id=569290831031304243&scope=bot)
