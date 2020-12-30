@@ -294,11 +294,12 @@ function handleCommandResponse(response, message) {
         response.msgOptions = response.msgOptions || undefined;
         //DM
         if (message.channel.type != "text" || response.private === true) {
-            message.author.send(response.msg, response.msgOptions);
+            //Shitty fix but it works
+            message.author.send(response.msg.substring(0,2000), response.msgOptions);
         }
         //Public
         else {
-            message.channel.send(response.msg, response.msgOptions);
+            message.channel.send(response.msg.substring(0,2000), response.msgOptions);
         }
     }
     //Add to memory.
