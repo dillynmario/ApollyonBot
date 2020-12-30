@@ -1,6 +1,6 @@
 //Help function:
 exports.help = (config, command, message) => {
-    return `Commands:\na!hook\na!invite\na!markov\na!say\na!invite\na!fakeword\na!8ball\na!do\na!status\na!nick\na!botinvite\na!scromble\nMore info for commands can be found using the following syntax:\n\`${config.prefix}${command} [command name]\`\n\`bot developer: apollyon#2728, privacy policy: a!privacypolicy, source code: a!github\``
+     return `Commands:\na!hook\na!invite\na!markov\na!say\na!invite\na!fakeword\na!8ball\na!do\na!status\na!nick\na!botinvite\na!crab\na!lobster\na!scromble\nMore info for commands can be found using the following syntax:\n\`${config.prefix}${command} [command name]\`\n\`bot developer: apollyon#2728, privacy policy: a!privacypolicy, source code: a!github\``
 }
 exports.call = (args, info) => {
     //If the command is called blank, explain it.
