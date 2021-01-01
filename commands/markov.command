@@ -26,20 +26,24 @@ exports.call = (args, info) => {
             return "No markov data for guild";
         }
         //Begin loading.
-        info.temp.guilds[flake].markov_state = LOADING;
-        var markov_chain = Markov(2);
-        info.temp.guilds[flake].markov_object = markov_chain;
-        //Start loading and type while doing so.
-        info.core.log(`Started loading for guild "${info.message.guild.name}" (id: ${info.message.guild.id}).`, "markov");
-        info.message.channel.startTyping();
-        //Callback when the markov has finished reading the data.
-        var markov_stream = fs.createReadStream(markov_data);
-        markov_chain.seed(markov_stream, () => {
-            info.temp.guilds[flake].markov_state = READY;
-            info.core.callCommand('markov', args, info.message);
-            info.message.channel.stopTyping();
-            info.core.log(`Markov data for guild "${info.message.guild.name}" (id: ${info.message.guild.id}) is ready.`, "markov");
-        });
+        try {
+            info.temp.guilds[flake].markov_state = LOADING;
+            var markov_chain = Markov(2);
+            info.temp.guilds[flake].markov_object = markov_chain;
+            //Start loading and type while doing so.
+            info.core.log(`Started loading for guild "${info.message.guild.name}" (id: ${info.message.guild.id}).`, "markov");
+            info.message.channel.startTyping();
+            //Callback when the markov has finished reading the data.
+            var markov_stream = fs.createReadStream(markov_data);
+            markov_chain.seed(markov_stream, () => {
+                info.temp.guilds[flake].markov_state = READY;
+                info.core.callCommand('markov', args, info.message);
+                info.message.channel.stopTyping();
+                info.core.log(`Markov data for guild "${info.message.guild.name}" (id: ${info.message.guild.id}) is ready.`, "markov");
+            });
+        } catch (err) {
+            info.core.log(error);
+        }
     }
     //If it is currently loading, try to call this command again later.
     if (info.temp.guilds[flake].markov_state === LOADING) {}
