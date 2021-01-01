@@ -58,13 +58,13 @@ exports.call = (args, info) => {
         "markov_chance": {
             "help": "If `random_markov` is true, how high the chance is for me to respond to someone's message, in percent.",
             "legal": value => {
-                return (!isNaN(value)) && parseFloat(value) >= 0.1 && parseFloat(value) <= 100
+                return (!isNaN(value)) && parseFloat(value) >= 0.1 && parseFloat(value) <= 128
             },
         },
         "markov_chance_increase": {
             "help": "If `random_markov` is true, each message that does not lure me into talking will lower my patience by this many percent.",
             "legal": value => {
-                return (!isNaN(value)) && parseFloat(value) >= 0 && parseFloat(value) <= 100
+                return (!isNaN(value)) && parseFloat(value) >= 0 && parseFloat(value) <= 128
             },
         },
         "markov_max_length": {
@@ -77,7 +77,7 @@ exports.call = (args, info) => {
             "help": "The default word limit for every markov response I give. \
 			        Since words can be long, this mostly just changes the way I structure my sentences instead of preventing me from rambling on.",
             "legal": value => {
-                return (!isNaN(value)) && parseFloat(value) >= 1 && parseFloat(value) <= 500
+                return (!isNaN(value)) && parseFloat(value) >= 1 && parseFloat(value) <= 512
             },
         },
         "allow_hooks": {
