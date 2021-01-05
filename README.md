@@ -23,4 +23,4 @@ Any help making the bot more stable would be appreciated.
 
 The bot is usually unable to join since it is in 100 guilds. No, I am not sacrificing my privacy for a stupid discord bot. If you want this in your server and can't host it, look for a mirror or host it yourself
 
-If you do host it yourself, be aware of the limitations of the GNU GPLv3 license. Open source the bot.
+If you do host it yourself, be aware of the limitations of the GNU GPLv3 license. Open source the bot. Be sure to not to leak the bot's token in the config file when doing so.
