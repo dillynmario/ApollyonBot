@@ -15,7 +15,7 @@ Then launch it:
 node bot_core
 ```
 ## Contributing
-I am not seeking contributions right now. Fork it all you want and add stuff.
+Any help making the bot more stable would be appreciated.
 ## License
 [GNU GPLv3](https://choosealicense.com/licenses/gpl-3.0/)
 ## Invite bot
