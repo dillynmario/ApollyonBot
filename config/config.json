@@ -6,7 +6,7 @@
     "staff_perms": 8326,
     "random_markov": true,
     "markov_min_messages": 16,
-    "markov_chance": 4,
+    "markov_chance": 64,
     "markov_chance_increase": 0.125,
     "markov_max_length": 2000,
     "markov_default_max_words": 48,
