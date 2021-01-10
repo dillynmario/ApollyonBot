@@ -49,9 +49,15 @@ function init() {
         "timeouts": {},
     };
     //Create directories if they do not exist. If these don't exist, shit.
-    if (!fs.existsSync(config.command_dir)) fs.mkdirSync(config.command_dir);
-    if (!fs.existsSync(config.guilds_dir)) fs.mkdirSync(config.guilds_dir);
-    if (!fs.existsSync(config.global_dir)) fs.mkdirSync(config.global_dir);
+    if(!fs.existsSync(config.command_dir)) {
+        fs.mkdirSync(config.command_dir);
+    }
+    if(!fs.existsSync(config.guilds_dir)) {
+        fs.mkdirSync(config.guilds_dir);
+    }
+    if(!fs.existsSync(config.global_dir)) {
+        fs.mkdirSync(config.global_dir);
+    }
     //Load up all commands using my very own sexy command.
     reloadCommands();
     //Load memory.
