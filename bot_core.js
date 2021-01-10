@@ -228,6 +228,7 @@ function hookUpBot() {
             callCommand(command, args, message);
         }
     });
+    bot.on('error', console.error);
 }
 //Calls a command of the given name with the given arguments (array), operating using the given message object.
 function callCommand(command, args, message, is_hook) {
