@@ -206,7 +206,7 @@ function hookUpBot() {
                         //Try and fall into the random range.
                     } else if (randRange({
                             "min": 1,
-                            "max": 128,
+                            "max": guild_config.markov_chance,
                             "fixed": 2
                         }) <= guild_temp.current_chance) {
                         guild_temp.since_last_markov = 0;
