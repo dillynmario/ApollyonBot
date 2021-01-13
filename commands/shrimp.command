@@ -11,7 +11,7 @@ exports.call = (args, info) => {
         return Math.floor(Math.random() * (max - min + 1) + min);
     }
     var options = {
-        url: "http://results.dogpile.com/serp?qc=images&q=shrimp+in+ocean",
+        url: "http://results.dogpile.com/serp?qc=images&q=shrimp+in+water",
         method: "GET",
         headers: {
             "Accept": "text/html",
