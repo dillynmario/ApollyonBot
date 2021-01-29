@@ -1,9 +1,8 @@
-//Help function:
+// Help function:
 exports.help = (config, command, message) => {
-    return `Magic 8 ball \
-					\nUsage: \`${config.prefix}${command} [something]\``;
+    return "Magic 8 ball \nUsage: \`" + config.prefix + command + " [question]\`";
 }
-//Command logic:
+// Command logic:
 exports.call = (args, info) => {
     const responses = [
         "It is certain",
@@ -20,6 +19,6 @@ exports.call = (args, info) => {
         "<:desolate:551932632062230529>",
         "actual content of the church in the fool. The worms that is a book of the bath soaps and"
     ];
-    const randomIndex = Math.floor(Math.random() * responses.length);
-    return (responses[randomIndex]);
+    const randomIndex = Math.floor (Math.random () * responses.length);
+    return (responses [randomIndex]);
 }

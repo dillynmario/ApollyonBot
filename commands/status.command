@@ -1,19 +1,18 @@
-//Help function:
+// Help function:
 exports.help = (config, command, message) => {
-    return `Set my status message to some sort of video. \
-					\nUsage: \`${config.prefix}${command} [what I am watching]\``;
+    return "Set my status message to some sort of video. \nUsage: \`" + config.prefix + command + " [what my status should be]\`";
 }
-//Command logic:
+// Command logic:
 exports.call = (args, info) => {
-    var str = args.join(" ");
-    info.bot.user.setActivity(str, {
-        type: 'PLAYING'
+    var str = args.join (" ");
+    info.bot.user.setActivity (str, {
+        type: "PLAYING"
     });
     return {
-        msg: 'Your status has been set.',
+        msg: "Your status has been set.",
         memory: {
             activity: {
-                type: 'PLAYING',
+                type: "PLAYING",
                 string: str
             }
         }

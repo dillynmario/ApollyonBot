@@ -1,11 +1,10 @@
-//Help function:
+// Help function:
 exports.help = (config, command, message) => {
-    return `Make me disconnect from Discord. \
-					\nUsage: \`${config.prefix}${command}\``;
+    return "Make me disconnect from Discord. \nUsage: \`" + config.prefix + command + "\`";
 }
-//Command logic:
+// Command logic:
 exports.call = (args, info) => {
-    if (info.core.isByBotAdmin(info.message)) {
+    if (info.core.isByBotAdmin (info.message)) {
         return {
             "signals": ["quit"],
             "msg": "Aight, bye."

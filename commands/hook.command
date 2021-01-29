@@ -1,62 +1,60 @@
-//Help function:
+// Help function:
 exports.help = (config, command, message) => {
-    return `Make me respond to certain message texts with certain commands. You can \`list\` current hooks, \`add\` a new hook or \`clear\` and existing hook using its string ID given in the \`list\`. \
-					\nUsage: \`${config.prefix}${command} [add|clear|list] [string|regex] [command]\` \
-					\nExamples: \`${config.prefix}${command} list\`, \`${config.prefix}${command} add ping say pong\`, \`${config.prefix}${command} clear ping\`, \`${config.prefix}${command} add /{(.*?)}/g lobster.\``;
+    return "Make me respond to certain message texts with certain commands. You can \`list\` current hooks, \`add\` a new hook or \`clear\` and existing hook using its string ID given in the \`list\`. \nUsage: \` " + config.prefix + command + " [add|clear|list] [string|regex] [command]\` \nExamples: \` " + config.prefix + command + " list\`, \` " + config.prefix + command + " add ping say pong\`, \` " + config.prefix + command + " clear ping\`, \`" + config.prefix + command + " add /{(.*?)}/g lobster.\`";
 }
-var escapeRegex = require('escape-string-regexp');
-//Command logic:
+var escapeRegex = require ("escape-string-regexp");
+// Command logic:
 exports.call = (args, info) => {
-    //If not by staff member, quit out. I am not sure if this works.
-    if (!info.core.isByStaffMember(info.message)) {
+    // If not by staff member, quit out. I am not sure if this works.
+    if (!info.core.isByStaffMember (info.message)) {
         return "You are not authorized to do this.";
     }
     return info.core.commandSwitch(args, {
         add: args => {
-            //If there aren't at least a command a string or regex, complain.
+            // If there aren't at least a command a string or regex, complain.
             if (args.length < 2) {
                 return "I need to know a command and a phrase or regex to look out for!";
             }
-            //Save the first argument for later.
-            var original_regex = args.shift();
+            // Save the first argument for later.
+            var original_regex = args.shift ();
             var regex = original_regex;
             var regex_options = undefined;
-            //For presentation.
+            // For presentation.
             var wrap_l = "regular expression \`";
             var wrap_r = "\`";
-            //Check for command validity on the second argument.
-            var command = args.shift();
-            if (!info.core.hasCommand(command)) {
-                return `Oi oi oi, I don't know of any such \`${command}\` command, kid.`;
+            // Check for command validity on the second argument.
+            var command = args.shift ();
+            if (!info.core.hasCommand (command)) {
+                return "Oi oi oi, I don't know of any such \`" + command + "\` command, kid.";
             }
-            //Take the original first argument and turn it into regex.
-            //If the first character is a forward slash, this is regex.
-            if (regex.charAt(0) === "/") {
-                //Delete starting slash to break it into regex string and options.
-                regex = regex.substr(1);
-                regex = regex.split("/");
+            // Take the original first argument and turn it into regex.
+            // If the first character is a forward slash, this is regex.
+            if (regex.charAt (0) === "/") {
+                // Delete starting slash to break it into regex string and options.
+                regex = regex.substr (1);
+                regex = regex.split ("/");
                 if (regex.length < 2) {
-                    return `Regex ${original_regex} is not valid. Make sure to include the options slash even if you don't want to use any options.`;
+                    return "Regex " + original_regex + "is not valid. Make sure to include the options slash even if you don't want to use any options.";
                 }
-                //Build the regex object.
-                regex_options = regex.pop();
-                regex = regex.join("/");
+                // Build the regex object.
+                regex_options = regex.pop ();
+                regex = regex.join ("/");
             } else {
-                //If the first character is not a slash, plain text regex.
-                //Here, if the first character is a backslash, erase it as it may have been there to escape a forward slash.
-                if (regex.charAt(0) === "\\") {
-                    regex = regex.substr(1);
+                // If the first character is not a slash, plain text regex.
+                // Here, if the first character is a backslash, erase it as it may have been there to escape a forward slash.
+                if (regex.charAt (0) === "\\") {
+                    regex = regex.substr (1);
                 }
-                //Build the regex object.
-                regex = escapeRegex(regex);
+                // Build the regex object.
+                regex = escapeRegex (regex);
                 wrap_l = "when anyone says \`";
                 wrap_r = "\`";
             }
-            //After getting the data, verify the regex.
+            // After getting the data, verify the regex.
             try {
-                new RegExp(regex, regex_options);
+                new RegExp (regex, regex_options);
             } catch (err) {
-                return `\`${original_regex}\` is invalid regex. Make sure it's valid using an online regex tester or something to that effect.`
+                return "\`" + original_regex + "\` is invalid regex. Make sure it's valid using an online regex tester or something to that effect."
             }
             return info.core.setHook({
                     "command": command,
@@ -65,49 +63,47 @@ exports.call = (args, info) => {
                     "regex_options": regex_options,
                     "guild": info.message.guild.id,
                 }) ?
-                `Hooked \`${command} ${args.join(" ")}\` up to ${wrap_l}${original_regex}${wrap_r}. Can't wait.` :
-                `There already is a hook on ${wrap_l}${original_regex}${wrap_r}. One at a time!`;
+                "Hooked \`" + command + args.join(" ") + "\` up to " + wrap_l + original_regex + wrap_r + ". Can't wait." :
+                "There already is a hook on " + wrap_l + original_regex + wrap_r + ". One at a time!";
         },
-        //Clears the hook for the given regex.
+        // Clears the hook for the given regex.
         clear: args => {
             if (args.length === 0) {
                 return "You'll have to tell me which hook to clear if you want anything done around here.";
             }
-            //If hook exists, call the core clear function on it.
+            // If hook exists, call the core clear function on it.
             var guild_id = info.message.guild.id;
-            var regex_string = args[0];
-            var perm_hooks = info.memory.guilds[guild_id].hooks;
-            //Hook exists.
-            if (perm_hooks && perm_hooks[regex_string]) {
-                info.core.clearHook(guild_id, regex_string);
-                return `Won't listen to "${regex_string}" any more.`;
-            }
-            //Hook does not exist.
-            else {
+            var regex_string = args [0];
+            var perm_hooks = info.memory.guilds [guild_id].hooks;
+            // Hook exists.
+            if (perm_hooks && perm_hooks [regex_string]) {
+                info.core.clearHook (guild_id, regex_string);
+                return "Won't listen to " + regex_string + " any more.";
+            } else {
+                // Hook does not exist.
                 return `I don't have any "${regex_string}" hook!`;
             }
         },
         list: () => {
-            var temp_hooks = info.temp.guilds[info.message.guild.id].hooks;
-            //If there are hooks set, loop over them.
-            if (temp_hooks && Object.keys(temp_hooks).length > 0) {
-                var hook_num = Object.keys(temp_hooks).length;
-                var return_string = `**Found ${hook_num} hook${hook_num > 1 ? "s" : ""}:**`;
-                Object.keys(temp_hooks).forEach(regex_string => {
-                    var cur_hook = temp_hooks[regex_string];
-                    var hook_string = `\`${regex_string}\`: \`${cur_hook.command} ${cur_hook.args.join(" ")}\`${cur_hook.regex.global ? " [global]" : ""}`;
-                    return_string = `${return_string}\n${hook_string}`;
+            var temp_hooks = info.temp.guilds [info.message.guild.id].hooks;
+            // If there are hooks set, loop over them.
+            if (temp_hooks && Object.keys (temp_hooks).length > 0) {
+                var hook_num = Object.keys (temp_hooks).length;
+                var return_string = "**Number of hooks: ${hook_num}";
+                Object.keys (temp_hooks).forEach (regex_string => {
+                    var cur_hook = temp_hooks [regex_string];
+                    var hook_string = regex_string + ": " + cur_hook.command + cur_hook.args.join (" ") + cur_hook.regex.global ? " [global]" : "";
+                    return_string = return_string + "\n" + hook_string;
                 });
                 return return_string;
-            }
-            //If no hooks are found.
-            else {
+            } else {
+                // If no hooks are found.
                 return "There are no hooks to be found!";
             }
         },
         //Without arguments it gives a tiny instruction.
-        default: function() {
-            return `Give me something to look out for and a command and I will do so till the day I die. Like \`${info.config.prefix}${info.command} add bungle say mungle\` to make me say mungle on every bungle. Regular expressions allowed.`;
+        default: function () {
+            return "Give me something to look out for and a command and I will do so till the day I die. Like \`" + info.config.prefix + info.command + " add bungle say mungle\` to make me say mungle on every bungle. Regular expressions allowed.";
         },
     });
 }
