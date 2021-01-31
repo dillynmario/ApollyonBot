@@ -428,7 +428,8 @@ function makeGuildDir (guild) {
 // Deletes all data related to the given guild.
 function deleteGuildData (guild_id) {
     // Delete guild_data directory.
-    const data_path = config.guilds_dir + guild.id + "/";
+    // Edit: this should work now.
+    const data_path = config.guilds_dir + guild_id + "/";
     if (fs.existsSync (data_path)) {
         fs.removeSync (data_path);
     }
