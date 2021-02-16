@@ -734,18 +734,18 @@ function feedMarkov (guild, new_string) {
         return;
     }
     // To start, simply feed the new string into the running markov machine, no matter what happens to the data files.
-    if (temp.guilds [guild.id].markov_state !== undefined) {
-        temp.guilds [guild.id].markov_object.seed (new_string);
+    if (temp.guilds [guild.id] . markov_state !== undefined) {
+        temp.guilds [guild.id] . markov_object.seed (new_string);
     }
     // Then, see if we need to create a fresh file.
-    var data_path = config.guilds_dir + guild.id + "/" + config.markov_file};
+    var data_path = config.guilds_dir + guild.id + "/" + config.markov_file;
     try {
         fs.accessSync (data_path, fs.constants.R_OK | fs.constants.W_OK);
     } catch (err) {
         try {
-            fs.writeFileSync (data_path, fs.readFileSync(config.base_markov_data, "utf8"));
+            fs.writeFileSync (data_path, fs.readFileSync (config.base_markov_data, "utf8"));
         } catch (err) {
-            log ("Could neither find nor create markov data file at ${data_path}. Error: " + err, "markov");
+            log ("Could neither find nor create markov data file at " + data_path + ". Error: " + err, "markov");
             return;
         }
     }
