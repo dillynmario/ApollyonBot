@@ -14,10 +14,10 @@ exports.call = (args, info) => {
     } else {
         var new_name = args.join (" ");
         info.message.guild.me.setNickname (new_name)
-            .then(() => {
+            .then (() => {
                 info.message.channel.send ("Set my nick to \`" + new_name + "\`.");
             })
-            .catch(err => {
+            .catch (err => {
                 info.message.channel.send ("Something went wrong while changing my nick.");
                 info.core.log ("Error while setting nickname: " + err, "error");
             });

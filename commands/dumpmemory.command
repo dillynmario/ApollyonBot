@@ -17,7 +17,7 @@ exports.call = (args, info) => {
                 return;
             },
             default: args => {
-                var memory = JSON.stringify (cloneSafeJSON(info.memory, 20), null, "\t")
+                var memory = JSON.stringify (cloneSafeJSON (info.memory, 20), null, "\t")
                 info.message.channel.send ("My memory is attached.", {
                     "file": {
                         "name": "main-memory.json",
@@ -47,7 +47,8 @@ function cloneSafeJSON (obj, depth) {
     var ret = clone (obj);
     // Cleanup reference checks.
     while (refs.length) {
-        delete (refs.shift ()).___copied;
+        /// delete (refs.shift ()).___copied;
+        delete refs.shift () . ___copied;
     }
     // Return the result.
     return ret;
@@ -128,4 +129,3 @@ function cloneSafeJSON (obj, depth) {
         return undef;
     }
 }
-// Fuck homophobes

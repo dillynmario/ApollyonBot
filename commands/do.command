@@ -10,14 +10,14 @@ exports.call = (args, info) => {
         return "If you tell me a command and a time, I'll try to do that for you then! If you give me an absolute date or time, the timezone is UTC.";
     } else {
         // Else, the user is trying to set a timeout right now.
-        const now = new Date ().getTime ();
+        const now = new Date () . getTime ();
         var run_date = undefined;
         var time_until = undefined;
         var time_input = undefined;
         var made_attempt_at_giving_time = true;
         // If the date is given in relative time, attempt to parse that interval.
         if (args.lastIndexOf ("in") !== -1) {
-            time_input = args.slice (args.lastIndexOf ("in") + 1, args.length).join (" ");
+            time_input = args.slice (args.lastIndexOf ("in") + 1, args.length) . join (" ");
             args = args.slice (0, args.lastIndexOf ("in"));
             time_until = parseInt (fromHumanInterval (time_input), 10);
             if (time_until) {
@@ -26,9 +26,9 @@ exports.call = (args, info) => {
         }
         // If the date is given at an absolute time, attempt to parse the time given.
         else if (args.lastIndexOf ("at") !== -1) {
-            time_input = args.slice (args.lastIndexOf ("at") + 1, args.length).join (" ");
+            time_input = args.slice (args.lastIndexOf ("at") + 1, args.length) . join (" ");
             args = args.slice (0, args.lastIndexOf ("at"));
-            run_date = new Date (time_input  + " " + new Date ().getFullYear ()).getTime ();
+            run_date = new Date (time_input  + " " + new Date () . getFullYear ()) . getTime ();
             if (run_date) {
                 time_until = run_date - now;
             }

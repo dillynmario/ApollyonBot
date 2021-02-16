@@ -30,7 +30,7 @@ exports.call = (args, info) => {
         50, 75, 100, 125,
         150, 175, 175, 175,
     ];
-    var getWord = function(min, max) {
+    var getWord = function (min, max) {
         var length = wordLengths [Math.floor (Math.random () * 16)];
         if (min && (length < min)) length = min;
         if (max && (length > max)) length = max;
@@ -41,7 +41,7 @@ exports.call = (args, info) => {
         }
         return word;
     };
-    var randomElement = function(array) {
+    var randomElement = function (array) {
         return array [Math.floor (Math.random () * array.length)];
     };
     return getWord ();

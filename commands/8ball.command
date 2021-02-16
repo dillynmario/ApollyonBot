@@ -19,6 +19,6 @@ exports.call = (args, info) => {
         "<:desolate:551932632062230529>",
         "actual content of the church in the fool. The worms that is a book of the bath soaps and"
     ];
-    const randomIndex = Math.floor (Math.random () * responses.length);
-    return (responses [randomIndex]);
+    const randomIndex = Math.floor (Math.random() * responses.length);
+    return responses[randomIndex];
 }

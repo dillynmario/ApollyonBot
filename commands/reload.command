@@ -43,7 +43,7 @@ exports.call = (args, info) => {
     });
     if (reload_string !== "") {
         return {
-            "msg": "Reloading ${reload_string}.",
+            "msg": "Reloading " + reload_string + ".",
             "signals": signals,
         };
     } else {

@@ -5,10 +5,10 @@ exports.help = (config, command, message) => {
 // Command logic:
 exports.call = (args, info) => {
     function isEmpty (a) {
-        return "" === a || 0 === a || null === a || void 0 === a ? !1 : !0;
+        return "" === a || 0 === a || null === a || void 0 === a ? false : true;
     }
     if(!isEmpty (args)) {
-        var send1 = "https://discordapp.com/oauth2/authorize?client_id=" + args.toString ().replace (/[\\<>@#&!]/g, "") + "&scope=bot";
+        var send1 = "https://discordapp.com/oauth2/authorize?client_id=" + args.toString().replace(/[\\<>@#&!]/g, "") + "&scope=bot";
         return send1
     }
 }

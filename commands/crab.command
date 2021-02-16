@@ -28,5 +28,5 @@ exports.call = (args, info) => {
         global.selected_crab = urls [Math.floor (Math.random () * urls.length)];
         console.log (selected_crab);
     });
-    return (global.selected_crab);
+    return global.selected_crab;
 }

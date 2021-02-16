@@ -20,7 +20,7 @@ exports.call = (args, info) => {
     request (options, function (error, response, responseBody) {
         $ = cheerio.load (responseBody);
         var links = $(".image a.link")
-        var urls = new Array (links.length).fill (0).map ((v, i) => links.eq (i).attr ("href"));
+        var urls = new Array (links.length) . fill (0) . map ((v, i) => links.eq (i) . attr ("href"));
         if (!urls.length) {
             return "What the fuck? Why are there no images for lobsters? Bullshit. (Also this should not happen.)";
         }

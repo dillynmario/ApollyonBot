@@ -56,14 +56,14 @@ exports.call = (args, info) => {
             } catch (err) {
                 return "\`" + original_regex + "\` is invalid regex. Make sure it's valid using an online regex tester or something to that effect."
             }
-            return info.core.setHook({
+            return info.core.setHook ({
                     "command": command,
                     "args": args,
                     "regex_string": regex,
                     "regex_options": regex_options,
                     "guild": info.message.guild.id,
                 }) ?
-                "Hooked \`" + command + args.join(" ") + "\` up to " + wrap_l + original_regex + wrap_r + ". Can't wait." :
+                "Hooked \`" + command + args.join (" ") + "\` up to " + wrap_l + original_regex + wrap_r + ". Can't wait." :
                 "There already is a hook on " + wrap_l + original_regex + wrap_r + ". One at a time!";
         },
         // Clears the hook for the given regex.
@@ -74,25 +74,25 @@ exports.call = (args, info) => {
             // If hook exists, call the core clear function on it.
             var guild_id = info.message.guild.id;
             var regex_string = args [0];
-            var perm_hooks = info.memory.guilds [guild_id].hooks;
+            var perm_hooks = info.memory.guilds [guild_id] . hooks;
             // Hook exists.
             if (perm_hooks && perm_hooks [regex_string]) {
                 info.core.clearHook (guild_id, regex_string);
                 return "Won't listen to " + regex_string + " any more.";
             } else {
                 // Hook does not exist.
-                return `I don't have any "${regex_string}" hook!`;
+                return "I don't have any " + regex_string + " hook!";
             }
         },
         list: () => {
-            var temp_hooks = info.temp.guilds [info.message.guild.id].hooks;
+            var temp_hooks = info.temp.guilds [info.message.guild.id] . hooks;
             // If there are hooks set, loop over them.
-            if (temp_hooks && Object.keys (temp_hooks).length > 0) {
-                var hook_num = Object.keys (temp_hooks).length;
-                var return_string = "**Number of hooks: ${hook_num}";
-                Object.keys (temp_hooks).forEach (regex_string => {
+            if (temp_hooks && Object.keys (temp_hooks) . length > 0) {
+                var hook_num = Object.keys (temp_hooks) . length;
+                var return_string = "**Found " + hook_num + " hook" + (hook_num > 1 ? "s" : "") + ":**";
+                Object.keys (temp_hooks) . forEach (regex_string => {
                     var cur_hook = temp_hooks [regex_string];
-                    var hook_string = regex_string + ": " + cur_hook.command + cur_hook.args.join (" ") + cur_hook.regex.global ? " [global]" : "";
+                    var hook_string = regex_string + ": " + cur_hook.command + " " + cur_hook.args.join (" ") + (cur_hook.regex.global ? " [global]" : "");
                     return_string = return_string + "\n" + hook_string;
                 });
                 return return_string;
