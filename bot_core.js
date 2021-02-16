@@ -36,7 +36,8 @@ var memory = {
 var temp = {};
 // Initializes the entire bot.
 function init () {
-    log ("APOLLYONBOT IS LICENSED UNDER GPL-3, ALL PUBLIC MODIFIED VERSIONS MUST BE OPEN SOURCED"); //If you do this, you will be sent to the dock of shame.
+    //If you do this, you will be sent to the dock of shame.
+    log ("APOLLYONBOT IS LICENSED UNDER GPL-3, ALL PUBLIC MODIFIED VERSIONS MUST BE OPEN SOURCED");
     log ("Booting...", "boot");
     // Create bot client.
     bot = new Discord.Client ();
@@ -109,12 +110,12 @@ function exit () {
 function hookUpBot () {
     bot.on ("ready", () => {
         // Create data directory for every guild the bot is a part of.
-        bot.guilds.array ().forEach (guild => {
+        bot.guilds.array () . forEach (guild => {
             makeGuildDir (guild);
             initializeGuildMemory (guild);
         });
         // Create channel memory for every channel the bot is a part of.
-        bot.channels.array ().forEach (channel => {
+        bot.channels.array () . forEach (channel => {
             initializeChannelMemory (channel);
         });
         // Load up hooks.
@@ -147,7 +148,7 @@ function hookUpBot () {
     // When a guild is left, or during an outage, queue a timer to delete its data.
     bot.on ("guildDelete", guild => {
         // When leaving a guild, set a persistent timer to delete it and its channels' data.
-        memory.guilds [guild.id].queued_deletion = setPersistentTimeout({
+        memory.guilds [guild.id] . queued_deletion = setPersistentTimeout({
             "name": "deleteGuildData",
             "args": guild.id,
             "type": "core"
@@ -162,7 +163,7 @@ function hookUpBot () {
         }
     });
     bot.on ("channelDelete", channel => {
-        const guild_subtext = channel.hasOwnProperty ("guild") ? ` in guild ${channel.guild.name} (id: ${channel.guild.id})` : "";
+        const guild_subtext = channel.hasOwnProperty ("guild") ? " in guild " + channel.guild.name + " (id: " + channel.guild.id + ")" : "";
         log ("Removed from channel " + channel.name + " (id: " + channel.id + ")" + guild_subtext + ".", "guild action");
     });
     // Command handler.
@@ -230,7 +231,7 @@ function hookUpBot () {
         else {
             // Cut the message contents up into a command and arguments by whitespace.
             const args = makeArrayOfWords (message.content, guild_config.prefix.length);
-            const command = args.shift().toLowerCase();
+            const command = args.shift () . toLowerCase ();
             // This is where the magic happens
             callCommand (command, args, message);
         }
@@ -248,7 +249,7 @@ function callCommand (command, args, message, is_hook) {
         var guild_config = getGuildConfig (message.guild);
         var args_string = args.join (" ");
         try {
-            var response = commands [command].call (args, {
+            var response = commands [command] . call (args, {
                 "memory": memory,
                 "temp": temp,
                 "message": message,
@@ -311,7 +312,7 @@ function handleCommandResponse (response, message) {
     if (response.memory) {
         // If not valid object.
         if (!response.memory instanceof Object) {
-            log("Memory return of command " + command + " is not an object; can not be committed.", "response");
+            log ("Memory return of command " + command + " is not an object; can not be committed.", "response");
         }
         // If the memory is a valid object, copy all keys into the global memory object.
         else {
@@ -343,7 +344,7 @@ function reloadCommands () {
 }
 // Reloads the command at the given path.
 function reloadCommand (path) {
-    const command_name = path.replace (/\..+$/, '').toLowerCase ();
+    const command_name = path.replace (/\..+$/, '') . toLowerCase ();
     // Delete module from cache (if it existed), then re-require it.
     delete require.cache [require.resolve (config.command_dir + path)];
     const command_file = require (config.command_dir + path)
@@ -428,7 +429,6 @@ function makeGuildDir (guild) {
 // Deletes all data related to the given guild.
 function deleteGuildData (guild_id) {
     // Delete guild_data directory.
-    // Edit: this should work now.
     const data_path = config.guilds_dir + guild_id + "/";
     if (fs.existsSync (data_path)) {
         fs.removeSync (data_path);
@@ -510,8 +510,8 @@ function setPersistentTimeout (func_descriptor, in_ms) {
     }
     memory.timeouts [time_key] = {
         "func_descriptor": func_descriptor,
-        // AAaAAAAAAAAAAAAA
-        "time": new Date ().getTime () + in_ms
+        // Stroustrup's coding style pales in comparison to whatever this style here is!
+        "time": new Date () . getTime () + in_ms
     };
     // After storing the persistent timeout, revive it immediately to execute on it in this session.
     revivePersistentTimeout (time_key);
@@ -543,6 +543,7 @@ function revivePersistentTimeout (time_key) {
             // If type is core, call it as a function on core.
             core: () => {
                 if (core.hasOwnProperty (func_descriptor.name) && typeof (core [func_descriptor.name]) === "function") {
+                    // It works. Ask no more.
                     core [func_descriptor.name] (func_descriptor.args);
                 } else {
                     log ("Core function " + func_descriptor.name + " does not exist, timeout " + time_key + " failed.", "timers")
@@ -555,7 +556,7 @@ function revivePersistentTimeout (time_key) {
                 }
                 if (commands.hasOwnProperty (func_descriptor.name)) {
                     // If the descriptor has a message attached, convert it back from the ID pair to a message object.
-                    bot.channels.get (func_descriptor.message.channel).fetchMessage (func_descriptor.message.message).then (message => {
+                    bot.channels.get (func_descriptor.message.channel) . fetchMessage (func_descriptor.message.message) . then (message => {
                         callCommand (func_descriptor.name, func_descriptor.args, message, true);
                     }).catch (err => {
                         log ("Could not fetch message " + func_descriptor.message.message + " in channel " + func_descriptor.message.channel + ", timeout " + time_key + " failed. Error: " + err + ".", "timers")
@@ -567,7 +568,7 @@ function revivePersistentTimeout (time_key) {
         };
         // If the type given exists, execute on it.
         if (possible_types.hasOwnProperty (func_descriptor.type)) {
-            possible_types [func_descriptor.type]();
+            possible_types [func_descriptor.type] ();
         } else {
             // If we passed a garbage type, log the error and clear the timeout anyway.
             log (func_descriptor.type + " is not a valid type for a persistent timeout's \`func_descriptor.type\`.", "timers");
@@ -576,7 +577,7 @@ function revivePersistentTimeout (time_key) {
         clearPersistentTimeout (time_key);
     };
     // Calculate when the timeout function should be called.
-    const time_until = memory.timeouts [time_key].time - new Date ().getTime ();
+    const time_until = memory.timeouts [time_key] . time - new Date () . getTime ();
     // If the time for the timeout already passed, catch up immediately.
     if (time_until <= 0) {
         func_to_call ();
@@ -617,14 +618,14 @@ function clearHook (guild_id, regex_string) {
         delete perm_hooks [regex_string];
     }
     // Remove temporary memory.
-    var temp_hooks = temp.guilds [guild_id].hooks;
+    var temp_hooks = temp.guilds [guild_id] . hooks;
     if (temp_hooks && temp_hooks [regex_string]) {
         delete temp_hooks [regex_string];
     }
 }
 // "Revives" the hook with the given ID.
 function reviveHook (guild_id, regex_string) {
-    var hook = memory.guilds [guild_id].hooks [regex_string];
+    var hook = memory.guilds [guild_id] . hooks [regex_string];
     // Create our regex object to match against.
     var regex_options = hook.regex_options;
     var regex_obj = new RegExp (hook.regex_string, regex_options);
@@ -640,14 +641,14 @@ function reviveHook (guild_id, regex_string) {
 }
 // Loads all set hooks into each guild memory on load.
 function reviveAllHooks () {
-    bot.guilds.keyArray ().forEach (guild_id => {
+    bot.guilds.keyArray () . forEach (guild_id => {
         var guild_mem = memory.guilds [guild_id];
         // If this guild has no hooks, return.
         if (!guild_mem.hasOwnProperty ("hooks")) {
             return;
         }
         // Run through every hook and revive it.
-        Object.keys (guild_mem.hooks).forEach (key => {
+        Object.keys (guild_mem.hooks) . forEach (key => {
             reviveHook (guild_id, key);
         });
     });
@@ -656,10 +657,10 @@ function reviveAllHooks () {
 function matchHooks (message) {
     var found_hook = false;
     // Check if this guild has any hooks at all.
-    var all_hooks = temp.guilds [message.guild.id].hooks || {};
+    var all_hooks = temp.guilds [message.guild.id] . hooks || {};
     all_hooks = Object.assign ({}, getDynamicHooks (message.guild), all_hooks);
     if (all_hooks && Object.keys (all_hooks).length !== 0) {
-        Object.keys (all_hooks).forEach (hook_ID => {
+        Object.keys (all_hooks) . forEach (hook_ID => {
             var cur_hook = all_hooks [hook_ID];
             var guild_config = getGuildConfig (message.guild);
             // Check for matches (depending on globality, multiple times) and execute on them.
@@ -681,7 +682,7 @@ function matchHooks (message) {
                     hook_matches.shift ();
                     hook_matches.forEach(matched_string => {
                         if (matched_string !== "") {
-                            args_to_pass = args_to_pass.concat (matched_string.split(" "));
+                            args_to_pass = args_to_pass.concat (matched_string.split (" "));
                         }
                     });
                     // Call the associated command with the given arguments.
@@ -704,8 +705,8 @@ function getDynamicHooks (guild) {
     // If random markoving is on, respond to its own name.
     if (guild_config.random_markov === true) {
         var nick = getCurrentName (bot.user, guild);
-        return_hooks [`^(.*${nick}.*)$`] = {
-            "regex": new RegExp (`^(.*${nick}.*)$`, "gi"),
+        return_hooks ["^(.*" + nick + ".*)$"] = {
+            "regex": new RegExp ("^(.*" + nick + ".*)$", "gi"),
             "command": "markov",
             "args": [],
         };
@@ -728,7 +729,7 @@ function getNewID (obj, size) {
 }
 // Adds the given string to the markov chain object for the given guild and saves it to disc.
 function feedMarkov (guild, new_string) {
-    new_string = "\n" + new_string.replace ("<@!" + bot.user.id + ">", "").replace (/\s+/g, " ").trim ();
+    new_string = "\n" + new_string.replace ("<@!" + bot.user.id + ">", "") . replace (/\s+/g, " ") . trim ();
     if (new_string === "" || new_string === " " || new_string === "\n") {
         return;
     }
@@ -737,7 +738,7 @@ function feedMarkov (guild, new_string) {
         temp.guilds [guild.id].markov_object.seed (new_string);
     }
     // Then, see if we need to create a fresh file.
-    var data_path = `${config.guilds_dir}${guild.id}/${config.markov_file}`;
+    var data_path = config.guilds_dir + guild.id + "/" + config.markov_file};
     try {
         fs.accessSync (data_path, fs.constants.R_OK | fs.constants.W_OK);
     } catch (err) {
@@ -758,7 +759,7 @@ function feedMarkov (guild, new_string) {
 // Splits a string into a stripped array of words.
 // Slices off `sliced` characters at the front.
 function makeArrayOfWords (str, sliced = 0) {
-    return str.slice (sliced).trim ().split (/ +/g);
+    return str.slice (sliced) . trim () . split (/ +/g);
 }
 // Returns the time difference between two unix timestamps as a human readable string.
 function msToInterval (currentTimestamp, remoteTimestamp) {
@@ -820,8 +821,8 @@ function msToInterval (currentTimestamp, remoteTimestamp) {
     // Prepare the timeString pieces.
     var timePieces = [];
     for (var i = 0; i < timeFrames.length; i++) {
-        if (exhaustDetails || absDiff >= timeFrames [i].min) {
-            var numberOfFrames = Math.floor (absDiff / timeFrames [i].min);
+        if (exhaustDetails || absDiff >= timeFrames [i] . min) {
+            var numberOfFrames = Math.floor (absDiff / timeFrames [i] . min);
             detailsLeft -= 1;
             if (detailsLeft < 0) {
             // If this timeFrame would exceed the defined maximum, stop.
@@ -837,8 +838,8 @@ function msToInterval (currentTimestamp, remoteTimestamp) {
             }
             exhaustDetails = true;
             var plural = numberOfFrames != 1 ? "s" : "";
-            timePieces.push (numberOfFrames + " " + timeFrames [i].name + plural);
-            absDiff -= numberOfFrames * timeFrames [i].min;
+            timePieces.push (numberOfFrames + " " + timeFrames [i] . name + plural);
+            absDiff -= numberOfFrames * timeFrames [i] . min;
         }
     }
     // Assemble the timeString.
