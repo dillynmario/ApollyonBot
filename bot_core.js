@@ -87,7 +87,7 @@ function init () {
     core.commandSwitch = commandSwitch;
     core.commandBundle = commandBundle;
     // Log in!
-    bot.login (token);
+    bot.login (process.env.TOKEN);
     // Save memory to disc at an interval.
     save_interval = setInterval (commitMemory, config.save_interval);
 }
