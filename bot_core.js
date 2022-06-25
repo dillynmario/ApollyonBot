@@ -155,6 +155,7 @@ function hookUpBot () {
         }, config.guild_data_timeout_hours * 3600000);
         log ("Removed from guild " + guild.name + " (id: " + guild.id + "). Data will be deleted in " + config.guild_data_timeout_hours + " hours, unless the guild is rejoined.", "guild action");
     });
+   
     bot.on("channelCreate", channel => {
         if (channel.guild) {
             // Create channel memory.
@@ -235,6 +236,9 @@ function hookUpBot () {
             // This is where the magic happens
             callCommand (command, args, message);
         }
+    });
+    toleave = client.get_server("id")
+await client.leave_server(toleave)
     });
 }
 // Calls a command of the given name with the given arguments (array), operating using the given message object.
